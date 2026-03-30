@@ -1,8 +1,9 @@
 import re
 
-from playwright.async_api import Page
+from playwright.sync_api import Page, expect
 
-class SecundaPage(Page):
+
+class SecundaPage:
     URL = 'https://secunda.com.ua/'
     def __init__(self, page: Page):
         self.page = page
@@ -41,7 +42,7 @@ class SecundaPage(Page):
 
     # -----------------The men's sport watches------------------
     def get_mens_sport_watches(self):
-        # self.burger_menu.click()
         self.man_watches.click()
+        expect(self.sport_watches).to_be_visible()
         self.sport_watches.click()
     #-----------------The men's sport watches------------------
