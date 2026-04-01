@@ -47,18 +47,47 @@ def test_burger_menu(home_page, page):
 def test_men_sport_watches(home_page, page):
     home_page.get_mens_sport_watches()
     expect(page).to_have_url(re.compile(r"/versiya:sport_stat:cholovichi/"))
+def test_men_sport_watches_via_burger_menu(home_page, page):
+    page.set_viewport_size({"width": 375, "height": 812})
+    home_page.get_burger_menu()
+    home_page.click_burger_menu()
+    home_page.get_burger_menu_items()
+
+    expect(home_page.get_burger_menu()).to_be_visible()
+    expect(home_page.get_burger_menu_items()).to_be_visible()
+
+    home_page.get_mens_sport_watches()
+    expect(page).to_have_url(re.compile(r"/versiya:sport_stat:cholovichi/"))
 # -----------------The men's sport watches------------------
+
+# -----------------The women's sport watches------------------
+def test_women_classic_watches(home_page, page):
+    home_page.get_women_classic_watches()
+    expect(page).to_have_url(re.compile(r"/versiya:klasyka_stat:zhinochi/"))
+def test_women_classic_watches_via_burger_menu(home_page, page):
+    page.set_viewport_size({"width": 375, "height": 812})
+    home_page.get_burger_menu()
+    home_page.click_burger_menu()
+    home_page.get_burger_menu_items()
+
+    expect(home_page.get_burger_menu()).to_be_visible()
+    expect(home_page.get_burger_menu_items()).to_be_visible()
+
+    home_page.get_women_classic_watches()
+    expect(page).to_have_url(re.compile(r"/versiya:klasyka_stat:zhinochi/"))
+#------------------The women's sport watches------------------
 
 
 #-----------------API------------------
-def test_api_men_watches_request(home_page, page):
+# -----------------The men's sport watches------------------
+def test_api_men_sport_watches_request(home_page, page):
     with page.expect_request("**/api/catalog/grid") as request_info:
         home_page.get_mens_sport_watches()
 
     request = request_info.value
     assert request.method == "POST"
 
-def test_api_men_watches_response(home_page, page):
+def test_api_men_sport_watches_response(home_page, page):
     with page.expect_response("**/api/catalog/grid") as response_info:
         home_page.get_mens_sport_watches()
 
@@ -66,7 +95,32 @@ def test_api_men_watches_response(home_page, page):
     assert response.status == 200
     data = response.json()
     assert "items" in data
+    assert len(data["items"]) > 0
     assert isinstance(data["items"], list) #Це перевірка типу. Вона гарантує, що data["items"] є саме списком.
     # assert any("id" in item for item in data["items"]) #Перевірка, що хоча б один елемент має id
     assert all("id" in item for item in data["items"]) #Перевірка, що всі елементи мають id
-    # ----------------API------------------
+#-----------------The men's sport watches------------------
+
+
+#-----------------The women's sport watches------------------
+def test_api_women_classic_watches_request(home_page, page):
+    with page.expect_request("**/api/catalog/grid") as request_info:
+        home_page.get_women_classic_watches()
+
+    request = request_info.value
+    assert request.method == "POST"
+
+def test_api_women_classic_watches_response(home_page, page):
+    with page.expect_response("**/api/catalog/grid") as response_info:
+        home_page.get_women_classic_watches()
+
+    response = response_info.value
+    assert response.status == 200
+    data = response.json()
+    assert "items" in data
+    assert len(data["items"]) > 0
+    assert isinstance(data["items"], list)
+    assert all("id" in item for item in data["items"])
+#-----------------The women's sport watches------------------
+
+# ----------------API------------------

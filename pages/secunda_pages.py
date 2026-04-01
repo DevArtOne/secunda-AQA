@@ -8,9 +8,11 @@ class SecundaPage:
     def __init__(self, page: Page):
         self.page = page
 
+        # -----------------Menu-------------------------------
+        self.menu = page.locator("menu.catalog-list")
+        # -----------------Menu-------------------------------
 
         #-----------------Burger menu-------------------------------
-        self.menu = page.locator("menu.catalog-list")
         self.burger = page.locator(".header-menu .header-menu__icon")
         self.burger_menu = page.locator("menu.catalog-list.catalog-mobile")
         #-----------------Burger menu-------------------------------
@@ -20,6 +22,12 @@ class SecundaPage:
         self.man_watches = page.locator(".catalog-list").get_by_role("link", name="Чоловічі годинники")
         self.sport_watches = page.locator(".multi-menu").get_by_role("link", name="Спорт")
         #-----------------The men's sport watches------------------
+
+        #-----------------The women's sport watches------------------
+        self.woman_watches = page.locator(".catalog-list").get_by_role("link", name="Жіночі годинники")
+        self.classic_watches = page.locator(".multi-menu").get_by_role("link", name="Класика")
+        #-----------------The women's sport watches------------------
+
 
 
     def open(self):
@@ -46,3 +54,10 @@ class SecundaPage:
         expect(self.sport_watches).to_be_visible()
         self.sport_watches.click()
     #-----------------The men's sport watches------------------
+
+    #-----------------The women's sport watches------------------
+    def get_women_classic_watches(self):
+        self.woman_watches.click()
+        expect(self.classic_watches).to_be_visible()
+        self.classic_watches.click()
+    #-----------------The women's sport watches------------------
