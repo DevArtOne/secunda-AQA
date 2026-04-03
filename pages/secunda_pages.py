@@ -55,9 +55,9 @@ class SecundaPage:
         self.sport_watches.click()
     #-----------------The men's sport watches------------------
 
-    #-----------------The women's sport watches------------------
+    #-----------------The women's sport watches----------------
     def get_women_classic_watches(self):
         self.woman_watches.click()
         expect(self.classic_watches).to_be_visible()
         self.classic_watches.click()
-    #-----------------The women's sport watches------------------
+    #-----------------The women's sport watches----------------
